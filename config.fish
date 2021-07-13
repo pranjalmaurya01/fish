@@ -194,9 +194,11 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias codeyarn='code . && yarn start'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias install-code-ubuntu='wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O /tmp/code_latest_amd64.deb && sudo dpkg -i /tmp/code_latest_amd64.deb'
+
 
 #ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' 
 starship init fish | source
-#neofetch
-paleofetch
+neofetch
+#paleofetch
 
