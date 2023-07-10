@@ -199,6 +199,8 @@ alias install-code-ubuntu='wget "https://code.visualstudio.com/sha/download?buil
 
 #ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' 
 starship init fish | source
-neofetch
 #paleofetch
+if status is-interactive
+    neofetch
+end
 
