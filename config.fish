@@ -1,5 +1,5 @@
 set TERM "xterm-256color"             
-set EDITOR "micro"
+set EDITOR "vim"
 set VISUAL "code"
 
 
@@ -186,16 +186,12 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias mirror='sudo reflector --latest 5 --country Germany --age 2 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist && cat /etc/pacman.d/mirrorlist && sudo pacman -Syu'
 alias upall='paru -Syu --noconfirm'
-alias start-server='sudo systemctl start httpd && sudo systemctl start mysqld && cd ~/Documents/erp/backend_erp && source bin/activate.fish'
-alias restart-server='sudo systemctl restart httpd && sudo systemctl restart mysqld'
-alias stop-server='sudo systemctl stop httpd && sudo systemctl stop mysqld'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias codeyarn='code . && yarn start'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
-alias install-code-ubuntu='wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O /tmp/code_latest_amd64.deb && sudo dpkg -i /tmp/code_latest_amd64.deb'
-
+alias wcc='sudo systemctl start warp-svc.service && sleep 1 && warp-cli connect'
+alias wcd='warp-cli disconnect && sudo systemctl stop warp-svc.service'
 
 #ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' 
 starship init fish | source
