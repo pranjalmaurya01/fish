@@ -192,6 +192,27 @@ alias fgrep='fgrep --color=auto'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias wcc='sudo systemctl start warp-svc.service && sleep 1 && warp-cli connect'
 alias wcd='warp-cli disconnect && sudo systemctl stop warp-svc.service'
+alias c.="code ."
+
+# Check if ssh-agent is running
+if not ps -C ssh-agent >/dev/null
+    ssh-agent > /tmp/ssh-agent.env
+end
+
+# Load SSH agent environment variables
+if test -f /tmp/ssh-agent.env
+    source /tmp/ssh-agent.env >/dev/null
+    rm /tmp/ssh-agent.env
+end
+
+# Add SSH keys to the agent
+for key in (find ~/.ssh -type f -name "*.pub")
+    set private_key (string replace ".pub" "" $key)
+    if not contains $private_key "$SSH_AUTH_SOCK"
+        ssh-add -k $private_key >/dev/null 2>&1
+    end
+end
+
 
 #ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' 
 starship init fish | source
@@ -199,4 +220,3 @@ starship init fish | source
 if status is-interactive
     neofetch
 end
-
