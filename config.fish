@@ -194,26 +194,6 @@ alias wcc='sudo systemctl start warp-svc.service && sleep 1 && warp-cli connect'
 alias wcd='warp-cli disconnect && sudo systemctl stop warp-svc.service'
 alias c.="code ."
 
-# Check if ssh-agent is running
-if not ps -C ssh-agent >/dev/null
-    ssh-agent > /tmp/ssh-agent.env
-end
-
-# Load SSH agent environment variables
-if test -f /tmp/ssh-agent.env
-    source /tmp/ssh-agent.env >/dev/null
-    rm /tmp/ssh-agent.env
-end
-
-# Add SSH keys to the agent
-for key in (find ~/.ssh -type f -name "*.pub")
-    set private_key (string replace ".pub" "" $key)
-    if not contains $private_key "$SSH_AUTH_SOCK"
-        ssh-add -k $private_key >/dev/null 2>&1
-    end
-end
-
-
 #ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' 
 starship init fish | source
 #paleofetch
@@ -225,3 +205,17 @@ end
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+set -gx PATH $PATH (go env GOPATH)/bin
+
+eval (ssh-agent -c) > /dev/null 2>&1
+grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add  > /dev/null 2>&1
+
+
+
+
+# pnpm
+set -gx PNPM_HOME "/home/pranjal/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
